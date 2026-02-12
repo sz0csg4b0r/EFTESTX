@@ -1,0 +1,45 @@
+1. Szükséges nuget csomagok (8.0-as verzió .net esetén:)
+Pomelo 8.
+MSEFCore 8.
+MSEFCoreTools 8.
+MSEFCoreDesign 8.
+
+vagy parancsokkal: 
+
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Pomelo.EntityFrameworkCore.MySql
+dotnet add package Pomelo.EntityFrameworkCore.MySql.Design
+dotnet restore
+
+
+2. scaffolding! 
+dotnet ef dbcontext scaffold "Server=localhost;Database=ef_test;User=root;" Pomelo.EntityFrameworkCore.MySql -o Models --context-dir Data --context MyUserContext --use-database-names
+(db elérés aktuális környezet szerint)
+
+Parancsok magyarázata: 
+
+dotnet ef : → EF Core CLI tool
+dbcontext scaffold : DB-ből generál C# kódot
+
+2.1. csatlakozási adatok
+"Server=localhost;Database=foldrajz;User=root;" : connectionString csatlakozási adatok
+
+2.2. Provider : Pomelo package
+Pomelo.EntityFrameworkCore.MySql 
+Azt mondja meg: MariaDB/MySQL driver-t használjon a generálásnál
+
+2.3. Egyéb output opciók (beállítások...)
+-o Models vagy --output-dir Models  Entitás osztályok mappája, táblák alapján készít mappákat.
+--context-dir Data : DbContext mappája
+--context MyDbContext : DbContext osztálynév public class MyDbContext : DbContext
+--use-database-names : DB oszlopneveket használja (nem camelCase)  pl orszagNev marad orszagNev
+
+
+
+Egyéb parancsok: 
+dotnet ef --version
+FONTOS: első használat esetén kell a dotnet cli telepítés is! 
+dotnet tool uninstall --global dotnet-ef
+dotnet tool install --global dotnet-ef --version 8.0.23
+
+
